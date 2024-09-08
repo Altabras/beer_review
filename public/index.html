@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Адмін Панель</h1>
+    
+    <h2>Додати новий паб</h2>
+    <form id="addPubForm">
+        <input type="text" id="pubName" placeholder="Назва паба" required>
+        <input type="text" id="pubLocation" placeholder="Місцезнаходження" required>
+        <textarea id="pubDescription" placeholder="Опис"></textarea>
+        <input type="number" id="pubRating" placeholder="Рейтинг" min="1" max="5" required>
+        <button type="submit">Додати паб</button>
+    </form>
+
+    <h2>Додати нове пиво</h2>
+    <form id="addBeerForm">
+        <input type="text" id="beerName" placeholder="Назва пива" required>
+        <input type="text" id="beerType" placeholder="Тип" required>
+        <textarea id="beerDescription" placeholder="Опис"></textarea>
+        <input type="number" id="beerRating" placeholder="Рейтинг" min="1" max="5" required>
+        <button type="submit">Додати пиво</button>
+    </form>
+
+    <h2>Список пабів</h2>
+    <ul id="pubsList"></ul>
+
+    <h2>Список пива</h2>
+    <ul id="beersList"></ul>
+
+
+<!-- Попап для редагування паба -->
+<div id="editPubModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditPubModal()">&times;</span>
+        <h2>Редагувати паб</h2>
+        <form id="editPubForm">
+            <input type="hidden" id="editPubId">
+            <input type="text" id="editPubName" placeholder="Назва паба" required>
+            <input type="text" id="editPubLocation" placeholder="Місцезнаходження" required>
+            <textarea id="editPubDescription" placeholder="Опис"></textarea>
+            <input type="number" id="editPubRating" placeholder="Рейтинг" min="1" max="5" required>
+            <button type="submit">Оновити паб</button>
+        </form>
+    </div>
+</div>
+
+<!-- Попап для редагування пива -->
+<div id="editBeerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditBeerModal()">&times;</span>
+        <h2>Редагувати пиво</h2>
+        <form id="editBeerForm">
+            <input type="hidden" id="editBeerId">
+            <input type="text" id="editBeerName" placeholder="Назва пива" required>
+            <input type="text" id="editBeerType" placeholder="Тип" required>
+            <textarea id="editBeerDescription" placeholder="Опис"></textarea>
+            <input type="number" id="editBeerRating" placeholder="Рейтинг" min="1" max="5" required>
+            <button type="submit">Оновити пиво</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+    <script src="main.js"></script>
+</body>
+</html>
