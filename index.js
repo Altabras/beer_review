@@ -3,6 +3,8 @@ const db = require('./db');
 const pubRoutes = require('./routes/pubRoutes');   // Маршрути для пабів
 const beerRoutes = require('./routes/beerRoutes'); // Маршрути для пива
 const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.get('/', (req, res) => {
 // Використовуємо маршрути
 app.use('/api/pubs', pubRoutes);   // Маршрути для пабів
 app.use('/api/beers', beerRoutes);  // Маршрути для пива
+app.use('/admin', adminRoutes);
 
 // Маршрути аутентифікації
 app.use('/api/auth', authRoutes);

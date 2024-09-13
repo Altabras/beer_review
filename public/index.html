@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+
+    <!-- Форма входу для адміністратора -->
+    <div id="loginForm">
+        <h2>Вхід для адміністратора</h2>
+        <form>
+            <input type="text" id="username" placeholder="Логін" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="button" onclick="adminLogin()">Увійти</button>
+        </form>
+    </div>
+
+
+    <div id="adminPanel" style="display: none;">
     <h1>Адмін Панель</h1>
     
     <h2>Додати новий паб</h2>
@@ -65,7 +79,7 @@
         </form>
     </div>
 </div>
-
+</div>
 
 
 

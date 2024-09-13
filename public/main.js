@@ -4,31 +4,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const pubsList = document.getElementById('pubsList');
     const beersList = document.getElementById('beersList');
 
+    function getAuthHeaders() {
+        const token = localStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+    }
+
+    function adminLogin() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+    
+        fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('token', data.token); // Зберігаємо токен
+                document.getElementById('loginForm').style.display = 'none'; // Приховуємо форму входу
+                document.getElementById('adminPanel').style.display = 'block'; // Показуємо адмін панель
+                fetchItems(); // Завантажуємо паби і пиво
+            } else {
+                alert('Неправильний логін або пароль');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
     // Отримання і відображення пабів і пива
     const fetchItems = async () => {
-        const [pubsResponse, beersResponse] = await Promise.all([
-            fetch('/api/pubs'),
-            fetch('/api/beers')
-        ]);
+        try {
+            const [pubsResponse, beersResponse] = await Promise.all([
+                fetch('/api/pubs', { headers: getAuthHeaders() }),
+                fetch('/api/beers', { headers: getAuthHeaders() })
+            ]);
 
-        const pubs = await pubsResponse.json();
-        const beers = await beersResponse.json();
+            if (!pubsResponse.ok || !beersResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
 
-        pubsList.innerHTML = pubs.map(pub => `
-            <li>
-                ${pub.name} - ${pub.location} (${pub.rating})
-                <button onclick="openEditPubModal(${pub.id}, '${pub.name}', '${pub.location}', '${pub.description}', ${pub.rating})">Редагувати</button>
-                <button onclick="deletePub(${pub.id})">Видалити</button>
-            </li>
-        `).join('');
+            const pubs = await pubsResponse.json();
+            const beers = await beersResponse.json();
 
-        beersList.innerHTML = beers.map(beer => `
-            <li>
-                ${beer.name} - ${beer.type} (${beer.rating})
-                <button onclick="openEditBeerModal(${beer.id}, '${beer.name}', '${beer.type}', '${beer.description}', ${beer.rating})">Редагувати</button>
-                <button onclick="deleteBeer(${beer.id})">Видалити</button>
-            </li>
-        `).join('');
+            pubsList.innerHTML = pubs.map(pub => `
+                <li>
+                    ${pub.name} - ${pub.location} (${pub.rating})
+                    <button onclick="openEditPubModal(${pub.id}, '${pub.name}', '${pub.location}', '${pub.description}', ${pub.rating})">Редагувати</button>
+                    <button onclick="deletePub(${pub.id})">Видалити</button>
+                </li>
+            `).join('');
+
+            beersList.innerHTML = beers.map(beer => `
+                <li>
+                    ${beer.name} - ${beer.type} (${beer.rating})
+                    <button onclick="openEditBeerModal(${beer.id}, '${beer.name}', '${beer.type}', '${beer.description}', ${beer.rating})">Редагувати</button>
+                    <button onclick="deleteBeer(${beer.id})">Видалити</button>
+                </li>
+            `).join('');
+        } catch (error) {
+            console.error('Error fetching items:', error);
+        }
     };
 
     // Обробка форми додавання нового паба
@@ -42,9 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await fetch('/api/pubs', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({ name, location, description, rating })
         });
 
@@ -63,9 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await fetch('/api/beers', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({ name, type, description, rating })
         });
 
@@ -76,7 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Видалення паба
     window.deletePub = async (id) => {
         await fetch(`/api/pubs/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: getAuthHeaders()
         });
 
         fetchItems();
@@ -85,7 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Видалення пива
     window.deleteBeer = async (id) => {
         await fetch(`/api/beers/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: getAuthHeaders()
         });
 
         fetchItems();
@@ -133,9 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await fetch(`/api/pubs/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({ name, location, description, rating })
         });
 
@@ -155,9 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await fetch(`/api/beers/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify({ name, type, description, rating })
         });
 
