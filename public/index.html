@@ -8,19 +8,22 @@
 </head>
 <body>
 
-
-    <!-- Форма входу для адміністратора -->
-    <div id="loginForm">
-        <h2>Вхід для адміністратора</h2>
-        <form>
-            <input type="text" id="username" placeholder="Логін" required>
-            <input type="password" id="password" placeholder="Пароль" required>
-            <button type="button" onclick="adminLogin()">Увійти</button>
+     <!-- Форма входу для адміна -->
+     <div id="loginFormContainer">
+        <h1>Увійти як Адмін</h1>
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="Ім'я користувача" required>
+            <input type="password" id="loginPassword" placeholder="Пароль" required>
+            <button type="submit">Увійти</button>
+            <div id="loginMessage"></div>
         </form>
     </div>
 
+    <!-- Ваш адмін панель (сховати до авторизації) -->
+    <div id="adminPanel" style="display:none;">
+        <button id="logoutButton">Вийти</button>
 
-    <div id="adminPanel" style="display: none;">
+
     <h1>Адмін Панель</h1>
     
     <h2>Додати новий паб</h2>
@@ -79,8 +82,8 @@
         </form>
     </div>
 </div>
-</div>
 
+</div>
 
 
     <script src="main.js"></script>
