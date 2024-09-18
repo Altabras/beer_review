@@ -3,6 +3,8 @@ const db = require('./db');
 const pubRoutes = require('./routes/pubRoutes');   // Маршрути для пабів
 const beerRoutes = require('./routes/beerRoutes'); // Маршрути для пива
 const authRoutes = require('./routes/authRoutes');
+const path = require('path');
+
 
 const app = express();
 
@@ -22,6 +24,15 @@ app.use('/api/beers', beerRoutes);  // Маршрути для пива
 
 // Маршрути аутентифікації
 app.use('/api/auth', authRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+});
+
+//Front react
+
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+
 
 
 
