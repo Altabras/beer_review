@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     };
 
-    // Обробка форми додавання нового паба
+    // Обробка форми додавання нового паба!
     addPubForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
