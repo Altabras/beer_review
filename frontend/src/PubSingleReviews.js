@@ -29,6 +29,14 @@ const PubDetailPage = () => {
 
   return (
     <div className="pub-detail-block">
+      {/* Додаємо елемент зображення */}
+      {pub.image_url && (
+        <img
+          src={pub.image_url} // Використовуємо без '/' на початку
+          alt={pub.name} // Додаємо alt-текст для зображення
+          className="pub-image" // Додаємо клас для стилізації
+        />
+      )}
       <h1 className="pubs-title-review">{pub.name}</h1>
       <p className="pubs-location-review"><strong>Місцезнаходження:</strong> {pub.location}</p>
       <p className="pubs-desc-review"><strong>Опис:</strong> {pub.description}</p>

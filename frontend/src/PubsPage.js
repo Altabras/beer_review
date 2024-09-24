@@ -30,12 +30,19 @@ const PubsPage = () => {
         {pubs.length > 0 ? (
           pubs.map((pub) => (
             <div key={pub.id} className="pub-card">
+              {/* Додаємо елемент зображення */}
+              {pub.image_url && (
+                <img
+                src={pub.image_url} // Використовуємо без '/' на початку
+                alt={pub.name} // Додаємо alt-текст для зображення
+                className="pub-image" // Додаємо клас для стилізації
+              />
+              )}
               <h2>{pub.name}</h2>
               <p className="pubs-location"><strong>Місцезнаходження:</strong> {pub.location}</p>
               <p className="pubs-desc"><strong>Опис:</strong> {pub.description}</p>
               <p className="pubs-rating"><strong>Рейтинг:</strong> {pub.rating}/5</p>
               <Link to={`/pub/${pub.id}`}>Детальніше</Link> {/* Додаємо посилання на детальну сторінку */}
-              
             </div>
           ))
         ) : (

@@ -28,12 +28,14 @@
     
     <h2>Додати новий паб</h2>
     <form id="addPubForm">
-        <input type="text" id="pubName" placeholder="Назва паба" required>
-        <input type="text" id="pubLocation" placeholder="Місцезнаходження" required>
-        <textarea id="pubDescription" placeholder="Опис"></textarea>
-        <input type="number" id="pubRating" placeholder="Рейтинг" min="1" max="5" required>
+        <input type="text" id="pubName" placeholder="Назва пабу" required />
+        <input type="text" id="pubLocation" placeholder="Локація" required />
+        <textarea id="pubDescription" placeholder="Опис" required></textarea>
+        <input type="number" id="pubRating" placeholder="Рейтинг" required />
+        <input type="file" id="pubImage" accept="image/*" required /> <!-- Поле для завантаження зображення -->
         <button type="submit">Додати паб</button>
     </form>
+    
 
     <h2>Додати нове пиво</h2>
     <form id="addBeerForm">

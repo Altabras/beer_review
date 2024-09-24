@@ -5,7 +5,6 @@ const beerRoutes = require('./routes/beerRoutes'); // Маршрути для п
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 
-
 const app = express();
 
 // Middleware для обробки JSON
@@ -13,6 +12,7 @@ app.use(express.json());
 
 // Middleware для обслуговування статичних файлів
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Додаємо цей рядок
 
 app.get('/', (req, res) => {
   res.send('Beer Review API is working!');
@@ -25,18 +25,12 @@ app.use('/api/beers', beerRoutes);  // Маршрути для пива
 // Маршрути аутентифікації
 app.use('/api/auth', authRoutes);
 
+// Обробка запитів до React
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 });
-
-//Front react
-
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-
-
-
-
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

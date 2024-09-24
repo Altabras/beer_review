@@ -63,6 +63,8 @@
 /* Картка паба */
 .pub-card {
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 15px;
@@ -104,6 +106,11 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.pub-image{
+  max-height: 200px;
+    height: 100%;
+    object-fit: fill;
+}
 
 /*  */
 

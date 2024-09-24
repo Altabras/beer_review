@@ -109,25 +109,34 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Обробка форми додавання нового паба!
-    addPubForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+addPubForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-        const name = document.getElementById('pubName').value;
-        const location = document.getElementById('pubLocation').value;
-        const description = document.getElementById('pubDescription').value;
-        const rating = document.getElementById('pubRating').value;
+    const name = document.getElementById('pubName').value;
+    const location = document.getElementById('pubLocation').value;
+    const description = document.getElementById('pubDescription').value;
+    const rating = document.getElementById('pubRating').value;
+    const image = document.getElementById('pubImage').files[0]; // Отримуємо файл
 
-        await fetch('/api/pubs', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, location, description, rating })
-        });
+    // Створюємо FormData для відправки файлів і тексту
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('location', location);
+    formData.append('description', description);
+    formData.append('rating', rating);
+    formData.append('image', image); // Додаємо зображення до FormData
 
-        addPubForm.reset();
-        fetchItems();
+    // Відправка даних на сервер
+    await fetch('/api/pubs', {
+        method: 'POST',
+        body: formData // Передаємо formData без заголовка 'Content-Type'
     });
+
+    // Очищуємо форму після успішної відправки
+    addPubForm.reset();
+    fetchItems(); // Оновлюємо список пабів
+});
+
 
     // Обробка форми додавання нового пива
     addBeerForm.addEventListener('submit', async (e) => {
