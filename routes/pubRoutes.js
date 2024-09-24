@@ -14,4 +14,7 @@ router.put('/:id', pubController.updatePub);
 // Видалити паб
 router.delete('/:id', pubController.deletePub);
 
+// Отримати один паб за ID
+router.get('/:id', pubController.getPubById); // Додаємо  маршрут отримання пабу по id
+
 module.exports = router;

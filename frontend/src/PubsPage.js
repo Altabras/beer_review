@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const PubsPage = () => {
   const [pubs, setPubs] = useState([]);
@@ -33,6 +34,8 @@ const PubsPage = () => {
               <p className="pubs-location"><strong>Місцезнаходження:</strong> {pub.location}</p>
               <p className="pubs-desc"><strong>Опис:</strong> {pub.description}</p>
               <p className="pubs-rating"><strong>Рейтинг:</strong> {pub.rating}/5</p>
+              <Link to={`/pub/${pub.id}`}>Детальніше</Link> {/* Додаємо посилання на детальну сторінку */}
+              
             </div>
           ))
         ) : (

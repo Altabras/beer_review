@@ -47,3 +47,18 @@ exports.deletePub = (req, res) => {
       res.status(200).json({ message: 'Паб видалено успішно.' });
   });
 };
+
+// Отримати один паб за ID
+exports.getPubById = (req, res) => {
+  const { id } = req.params;
+  const sql = 'SELECT * FROM pubs WHERE id = ?';
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Паб не знайдено' });
+    }
+    res.json(result[0]); // Повертаємо перший результат
+  });
+};
