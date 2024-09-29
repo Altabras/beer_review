@@ -24,7 +24,8 @@ router.get('/', pubController.getPubs);
 router.post('/', upload.single('image'), pubController.addPub); // Додано upload.single('image')
 
 // Оновити інформацію про паб
-router.put('/:id', pubController.updatePub);
+
+router.put('/:id', upload.single('image'), pubController.updatePub);
 
 // Видалити паб
 router.delete('/:id', pubController.deletePub);

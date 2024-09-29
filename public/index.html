@@ -58,12 +58,13 @@
     <div class="modal-content">
         <span class="close" onclick="closeEditPubModal()">&times;</span>
         <h2>Редагувати паб</h2>
-        <form id="editPubForm">
+        <form id="editPubForm" enctype="multipart/form-data">
             <input type="hidden" id="editPubId">
             <input type="text" id="editPubName" placeholder="Назва паба" required>
             <input type="text" id="editPubLocation" placeholder="Місцезнаходження" required>
             <textarea id="editPubDescription" placeholder="Опис"></textarea>
             <input type="number" id="editPubRating" placeholder="Рейтинг" min="1" max="5" required>
+            <input type="file" id="editPubImage" name="image" accept="image/*">
             <button type="submit">Оновити паб</button>
         </form>
     </div>

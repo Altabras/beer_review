@@ -38,13 +38,25 @@ exports.addPub = (req, res) => {
   });
 };
 
-// Оновити інформацію про паб
 exports.updatePub = (req, res) => {
   const { id } = req.params;
-  const { name, location, description, rating } = req.body; // Вилучаємо image_url
-  const image_url = req.file ? req.file.path : null; // Отримуємо новий шлях до зображення
-  const sql = 'UPDATE pubs SET name = ?, location = ?, description = ?, rating = ?, image_url = ? WHERE id = ?';
-  db.query(sql, [name, location, description, rating, image_url, id], (err) => {
+  const { name, location, description, rating } = req.body;
+  const image_url = req.file ? req.file.path : null; // Отримуємо шлях до нового зображення, якщо є
+
+  let sql;
+  let params;
+
+  // Якщо є нове зображення, оновлюємо всі поля, включаючи image_url
+  if (image_url) {
+    sql = 'UPDATE pubs SET name = ?, location = ?, description = ?, rating = ?, image_url = ? WHERE id = ?';
+    params = [name, location, description, rating, image_url, id];
+  } else {
+    // Якщо зображення немає, оновлюємо всі поля, крім image_url
+    sql = 'UPDATE pubs SET name = ?, location = ?, description = ?, rating = ? WHERE id = ?';
+    params = [name, location, description, rating, id];
+  }
+
+  db.query(sql, params, (err) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }

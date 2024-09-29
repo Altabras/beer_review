@@ -208,26 +208,33 @@ addPubForm.addEventListener('submit', async (e) => {
     };
 
     // Обробка форми редагування паба
-    document.getElementById('editPubForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+document.getElementById('editPubForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-        const id = document.getElementById('editPubId').value;
-        const name = document.getElementById('editPubName').value;
-        const location = document.getElementById('editPubLocation').value;
-        const description = document.getElementById('editPubDescription').value;
-        const rating = document.getElementById('editPubRating').value;
+    const id = document.getElementById('editPubId').value;
+    const name = document.getElementById('editPubName').value;
+    const location = document.getElementById('editPubLocation').value;
+    const description = document.getElementById('editPubDescription').value;
+    const rating = document.getElementById('editPubRating').value;
+    const imageFile = document.getElementById('editPubImage').files[0]; // Отримуємо файл зображення
 
-        await fetch(`/api/pubs/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, location, description, rating })
-        });
+    const formData = new FormData(); // Створюємо новий об'єкт FormData
+    formData.append('name', name);
+    formData.append('location', location);
+    formData.append('description', description);
+    formData.append('rating', rating);
+    if (imageFile) {
+        formData.append('image', imageFile); // Додаємо файл зображення, якщо він є
+    }
 
-        closeEditPubModal();
-        fetchItems();
+    await fetch(`/api/pubs/${id}`, {
+        method: 'PUT',
+        body: formData // Відправляємо FormData, щоб включити файл
     });
+
+    closeEditPubModal();
+    fetchItems();
+});
 
     // Обробка форми редагування пива
     document.getElementById('editBeerForm').addEventListener('submit', async (e) => {
