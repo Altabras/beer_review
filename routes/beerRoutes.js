@@ -6,12 +6,13 @@ const beerController = require('../controllers/beerController');
 router.get('/', beerController.getBeers);
 
 // Додати новий сорт пива
-router.post('/', beerController.createBeer);
+router.post('/', beerController.addBeer);
 
 // Оновити інформацію про пиво
 router.put('/:id', beerController.updateBeer);
 
 // Видалити пиво
 router.delete('/:id', beerController.deleteBeer);
+
 
 module.exports = router;

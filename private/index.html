@@ -38,13 +38,17 @@
     
 
     <h2>Додати нове пиво</h2>
-    <form id="addBeerForm">
-        <input type="text" id="beerName" placeholder="Назва пива" required>
-        <input type="text" id="beerType" placeholder="Тип" required>
-        <textarea id="beerDescription" placeholder="Опис"></textarea>
-        <input type="number" id="beerRating" placeholder="Рейтинг" min="1" max="5" required>
-        <button type="submit">Додати пиво</button>
-    </form>
+<form id="addBeerForm">
+    <select id="beerPub" required>
+        <option value="">Виберіть паб</option>
+        <!-- Паби будуть завантажені динамічно -->
+    </select>
+    <input type="text" id="beerName" placeholder="Назва пива" required>
+    <input type="text" id="beerType" placeholder="Тип" required>
+    <textarea id="beerDescription" placeholder="Опис"></textarea>
+    <input type="number" id="beerRating" placeholder="Рейтинг" min="1" max="5" required>
+    <button type="submit">Додати пиво</button>
+</form>
 
     <h2>Список пабів</h2>
     <ul id="pubsList"></ul>
@@ -81,6 +85,10 @@
             <input type="text" id="editBeerType" placeholder="Тип" required>
             <textarea id="editBeerDescription" placeholder="Опис"></textarea>
             <input type="number" id="editBeerRating" placeholder="Рейтинг" min="1" max="5" required>
+            <select id="editBeerPub" required>
+                <option value="">Виберіть паб</option>
+                <!-- Паби будуть завантажені динамічно -->
+            </select>
             <button type="submit">Оновити пиво</button>
         </form>
     </div>

@@ -11,15 +11,26 @@ exports.getBeers = (req, res) => {
     });
 };
 
-// Додати новий сорт пива
-exports.createBeer = (req, res) => {
-    const { name, type, description, rating } = req.body;
+// Додати нове пиво
+exports.addBeer = (req, res) => {
+    const { name, type, description, rating, pubId } = req.body; // Додано pubId
+
     const sql = 'INSERT INTO beers (name, type, description, rating) VALUES (?, ?, ?, ?)';
     db.query(sql, [name, type, description, rating], (err, result) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        res.status(201).json({ id: result.insertId, name, type, description, rating });
+
+        const beerId = result.insertId; // Отримуємо ID нового пива
+
+        // Додаємо запис до pub_beer для зв'язку
+        const pubBeerSql = 'INSERT INTO pub_beer (pub_id, beer_id) VALUES (?, ?)';
+        db.query(pubBeerSql, [pubId, beerId], (err) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(201).json({ message: 'Beer added successfully!' });
+        });
     });
 };
 
@@ -47,3 +58,5 @@ exports.deleteBeer = (req, res) => {
         res.status(200).json({ message: 'Пиво видалено успішно.' });
     });
 };
+
+

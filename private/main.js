@@ -82,31 +82,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Отримання і відображення пабів і пива
-    const fetchItems = async () => {
-        const [pubsResponse, beersResponse] = await Promise.all([
-            fetch('/api/pubs'),
-            fetch('/api/beers')
-        ]);
+const fetchItems = async () => {
+    const [pubsResponse, beersResponse] = await Promise.all([
+        fetch('/api/pubs'),
+        fetch('/api/beers')
+    ]);
 
-        const pubs = await pubsResponse.json();
-        const beers = await beersResponse.json();
+    const pubs = await pubsResponse.json();
+    const beers = await beersResponse.json();
 
-        pubsList.innerHTML = pubs.map(pub => `
-            <li>
-                ${pub.name} - ${pub.location} (${pub.rating})
-                <button onclick="openEditPubModal(${pub.id}, '${pub.name}', '${pub.location}', '${pub.description}', ${pub.rating})">Редагувати</button>
-                <button onclick="deletePub(${pub.id})">Видалити</button>
-            </li>
-        `).join('');
+    // Оновлюємо список пабів у селектах для додавання і редагування пива
+    const pubOptions = pubs.map(pub => `<option value="${pub.id}">${pub.name}</option>`).join('');
+    document.getElementById('beerPub').innerHTML = `<option value="">Виберіть паб</option>${pubOptions}`;
+    document.getElementById('editBeerPub').innerHTML = `<option value="">Виберіть паб</option>${pubOptions}`;
 
-        beersList.innerHTML = beers.map(beer => `
-            <li>
-                ${beer.name} - ${beer.type} (${beer.rating})
-                <button onclick="openEditBeerModal(${beer.id}, '${beer.name}', '${beer.type}', '${beer.description}', ${beer.rating})">Редагувати</button>
-                <button onclick="deleteBeer(${beer.id})">Видалити</button>
-            </li>
-        `).join('');
-    };
+    pubsList.innerHTML = pubs.map(pub => `
+        <li>
+            ${pub.name} - ${pub.location} (${pub.rating})
+            <button onclick="openEditPubModal(${pub.id}, '${pub.name}', '${pub.location}', '${pub.description}', ${pub.rating})">Редагувати</button>
+            <button onclick="deletePub(${pub.id})">Видалити</button>
+        </li>
+    `).join('');
+
+    beersList.innerHTML = beers.map(beer => `
+        <li>
+            ${beer.name} - ${beer.type} (${beer.rating})
+            <button onclick="openEditBeerModal(${beer.id}, '${beer.name}', '${beer.type}', '${beer.description}', ${beer.rating}, ${beer.pubId})">Редагувати</button>
+            <button onclick="deleteBeer(${beer.id})">Видалити</button>
+        </li>
+    `).join('');
+};
+
 
     // Обробка форми додавання нового паба!
 addPubForm.addEventListener('submit', async (e) => {
@@ -139,25 +145,34 @@ addPubForm.addEventListener('submit', async (e) => {
 
 
     // Обробка форми додавання нового пива
-    addBeerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+addBeerForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Зупиняємо стандартну поведінку
 
-        const name = document.getElementById('beerName').value;
-        const type = document.getElementById('beerType').value;
-        const description = document.getElementById('beerDescription').value;
-        const rating = document.getElementById('beerRating').value;
+    const beerData = {
+        name: document.getElementById('beerName').value,
+        type: document.getElementById('beerType').value,
+        description: document.getElementById('beerDescription').value,
+        rating: document.getElementById('beerRating').value,
+        pubId: document.getElementById('beerPub').value // Додаємо pubId
+    };
 
-        await fetch('/api/beers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, type, description, rating })
-        });
+    fetch('/api/beers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(beerData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // Можливо, потрібно буде оновити список пива на сторінці
+    })
+    .catch(error => console.error('Error:', error));
+    addBeerForm.reset();
+    fetchItems();
+});
 
-        addBeerForm.reset();
-        fetchItems();
-    });
 
     // Видалення паба
     window.deletePub = async (id) => {
@@ -237,24 +252,26 @@ document.getElementById('editPubForm').addEventListener('submit', async (e) => {
 });
 
     // Обробка форми редагування пива
-    document.getElementById('editBeerForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+document.getElementById('editBeerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-        const id = document.getElementById('editBeerId').value;
-        const name = document.getElementById('editBeerName').value;
-        const type = document.getElementById('editBeerType').value;
-        const description = document.getElementById('editBeerDescription').value;
-        const rating = document.getElementById('editBeerRating').value;
+    const id = document.getElementById('editBeerId').value;
+    const name = document.getElementById('editBeerName').value;
+    const type = document.getElementById('editBeerType').value;
+    const description = document.getElementById('editBeerDescription').value;
+    const rating = document.getElementById('editBeerRating').value;
+    const pubId = document.getElementById('editBeerPub').value; // Отримуємо ID вибраного пабу
 
-        await fetch(`/api/beers/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, type, description, rating })
-        });
-
-        closeEditBeerModal();
-        fetchItems();
+    await fetch(`/api/beers/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, type, description, rating, pubId }) // Додаємо паб до тіла запиту
     });
+
+    closeEditBeerModal();
+    fetchItems();
+});
+
 });

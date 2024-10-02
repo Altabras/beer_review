@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 // Middleware для обслуговування статичних файлів
-app.use(express.static('public'));
+app.use(express.static('private'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Додаємо цей рядок
 
 app.get('/', (req, res) => {
