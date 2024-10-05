@@ -8,22 +8,25 @@ const PubDetailPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/pubs/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPub(data);
+    const fetchData = async () => {
+      try {
+        const pubResponse = await fetch(`/api/pubs/${id}`);
+        const pubData = await pubResponse.json();
+        console.log('Дані паба:', pubData); // Додайте це
+        setPub(pubData);
+  
+        const beersResponse = await fetch(`/api/pubs/${id}/beers`);
+        const beersData = await beersResponse.json();
+        console.log('Дані пива:', beersData); // Додайте це
+        setBeers(beersData);
+      } catch (error) {
+        console.error('Помилка при завантаженні:', error);
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Помилка при завантаженні паба:', error);
-        setLoading(false);
-      });
-
-    // Завантажуємо пиво для конкретного паба
-    fetch(`/api/pubs/${id}/beers`)
-      .then((response) => response.json())
-      .then((data) => setBeers(data))
-      .catch((error) => console.error('Помилка при завантаженні пива:', error));
+      }
+    };
+  
+    fetchData();
   }, [id]);
 
   if (loading) {
@@ -38,7 +41,7 @@ const PubDetailPage = () => {
     <div className="pub-detail-block">
       {pub.image_url && (
         <img
-          src={`/${pub.image_url}`}
+          src={`/${pub.image_url}`} // Переконайтеся, що у вашому API pub.image_url правильний
           alt={pub.name}
           className="pub-image-review"
         />
@@ -53,9 +56,14 @@ const PubDetailPage = () => {
         {beers.length > 0 ? (
           beers.map((beer) => (
             <div className="beer-card" key={beer.id}>
+              <img 
+                src={`/${beer.beer_img}`} // Переконайтеся, що beer.beer_img правильний
+                alt={`Зображення ${beer.name}`} 
+                className="beer-image" 
+              />
               <h3 className="beer-name">{beer.name}</h3>
               <span className="beer-type">Тип: {beer.type}</span>
-              <p className="beer-description">{beer.description}</p>
+              <p className="beer-description">Опис:{beer.description}</p>
               <span className="beer-rating">Рейтинг: {beer.rating}</span>
             </div>
           ))

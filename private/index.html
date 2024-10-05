@@ -38,17 +38,18 @@
     
 
     <h2>Додати нове пиво</h2>
-<form id="addBeerForm">
-    <select id="beerPub" required>
-        <option value="">Виберіть паб</option>
-        <!-- Паби будуть завантажені динамічно -->
-    </select>
-    <input type="text" id="beerName" placeholder="Назва пива" required>
-    <input type="text" id="beerType" placeholder="Тип" required>
-    <textarea id="beerDescription" placeholder="Опис"></textarea>
-    <input type="number" id="beerRating" placeholder="Рейтинг" min="1" max="5" required>
-    <button type="submit">Додати пиво</button>
-</form>
+    <form id="addBeerForm" enctype="multipart/form-data"> <!-- Додайте enctype -->
+        <select id="beerPub" required>
+            <option value="">Виберіть паб</option>
+            <!-- Паби будуть завантажені динамічно -->
+        </select>
+        <input type="text" id="beerName" placeholder="Назва пива" required>
+        <input type="text" id="beerType" placeholder="Тип" required>
+        <textarea id="beerDescription" placeholder="Опис"></textarea>
+        <input type="number" id="beerRating" placeholder="Рейтинг" min="1" max="5" required>
+        <input type="file" id="beerImage" name="beerImage" accept="image/*" required /> <!-- Додайте name -->
+        <button type="submit">Додати пиво</button>
+    </form>
 
     <h2>Список пабів</h2>
     <ul id="pubsList"></ul>

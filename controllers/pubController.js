@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // Вказуємо папку для зберігання файлів
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Зберігаємо файл з унікальним ім'ям
+    cb(null, file.originalname); // Зберігаємо файл з унікальним ім'ям
   },
 });
 
@@ -96,7 +96,7 @@ exports.getPubById = (req, res) => {
 exports.getBeersByPubId = (req, res) => {
   const { id } = req.params; // Отримуємо ID паба з параметрів
   const sql = `
-    SELECT beers.id, beers.name, beers.type, beers.description, beers.rating 
+    SELECT beers.id, beers.name, beers.type, beers.description, beers.rating, beers.beer_img
     FROM beers 
     JOIN pub_beer ON beers.id = pub_beer.beer_id 
     WHERE pub_beer.pub_id = ?

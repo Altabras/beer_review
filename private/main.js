@@ -148,20 +148,20 @@ addPubForm.addEventListener('submit', async (e) => {
 addBeerForm.addEventListener('submit', function(event) {
     event.preventDefault(); // Зупиняємо стандартну поведінку
 
-    const beerData = {
-        name: document.getElementById('beerName').value,
-        type: document.getElementById('beerType').value,
-        description: document.getElementById('beerDescription').value,
-        rating: document.getElementById('beerRating').value,
-        pubId: document.getElementById('beerPub').value // Додаємо pubId
-    };
+    // Створюємо об'єкт FormData
+    const formData = new FormData();
+    
+    // Додаємо дані пива до FormData
+    formData.append('name', document.getElementById('beerName').value);
+    formData.append('type', document.getElementById('beerType').value);
+    formData.append('description', document.getElementById('beerDescription').value);
+    formData.append('rating', document.getElementById('beerRating').value);
+    formData.append('pubId', document.getElementById('beerPub').value); // Додаємо pubId
+    formData.append('beer_img', document.getElementById('beerImage').files[0]); // Додаємо зображення
 
     fetch('/api/beers', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(beerData)
+        body: formData // Відправляємо FormData без заголовка Content-Type
     })
     .then(response => response.json())
     .then(data => {
@@ -169,8 +169,9 @@ addBeerForm.addEventListener('submit', function(event) {
         // Можливо, потрібно буде оновити список пива на сторінці
     })
     .catch(error => console.error('Error:', error));
+
     addBeerForm.reset();
-    fetchItems();
+    fetchItems(); // Оновлення списку пива (якщо це потрібно)
 });
 
 

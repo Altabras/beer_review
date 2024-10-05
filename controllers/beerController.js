@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); // Куди зберігати завантажені файли
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Генерація унікального імені файлу
+        cb(null, file.originalname); // Генерація унікального імені файлу
     }
 });
 
@@ -87,3 +87,5 @@ exports.deleteBeer = (req, res) => {
         res.status(200).json({ message: 'Пиво видалено успішно.' });
     });
 };
+
+
