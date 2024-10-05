@@ -38,14 +38,14 @@
 /* Сторінка пабів */
 
 
-/* Основний блок пабів */
+
 .pubs-block {
   padding: 20px;
   height: 100vh;
   background-color: #f9f9f9;
 }
 
-/* Заголовок сторінки */
+
 .title-pubs_page {
   font-size: 2.5em;
   text-align: center;
@@ -53,14 +53,14 @@
   color: #333;
 }
 
-/* Контейнер для карток пабів */
+
 .pubs-container {
   display: flex;
   gap: 20px;
   justify-content: center;
 }
 
-/* Картка паба */
+
 .pub-card {
   background-color: #fff;
   display: flex;
@@ -74,33 +74,33 @@
   transition: transform 0.3s ease;
 }
 
-/* Стилі для заголовку паба */
+
 .pub-card h2 {
   font-size: 1.8em;
   margin-bottom: 10px;
   color: #2c3e50;
 }
 
-/* Місцезнаходження */
+
 .pubs-location {
   font-size: 1.1em;
   margin-bottom: 8px;
 }
 
-/* Опис паба */
+
 .pubs-desc {
   font-size: 1em;
   margin-bottom: 8px;
 }
 
-/* Рейтинг паба */
+
 .pubs-rating {
   font-size: 1.1em;
   font-weight: bold;
   color: #e67e22;
 }
 
-/* Ефект при наведенні на картку паба */
+
 .pub-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -108,8 +108,11 @@
 
 .pub-image{
   max-height: 200px;
-    height: 100%;
-    object-fit: fill;
+  height: 100%;
+  object-fit: fill;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 /*  */
@@ -118,52 +121,82 @@
 
 
 .pub-detail-block {
-  background-color: #333333;
-  padding: 30px;
-  
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  height: 100vh;
-  
-  text-align: center;
-  border: 3px solid #ff6a00;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.pubs-title-review {
-  font-size: 36px;
-  color: #ff6a00;
+
+
+.pub-image-review{
+  width: 100%;
+  max-height: 400px;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 12px;
   margin-bottom: 20px;
-  text-transform: uppercase;
 }
 
-.pubs-location-review {
-  font-size: 20px;
-  margin-bottom: 15px;
+.beers-title {
+  font-size: 2rem;
+  margin: 20px 0;
+  text-align: center;
+  color: #333;
 }
 
-.pubs-location-review strong {
-  color: #ff6a00;
+.beer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.pubs-desc-review {
-  font-size: 18px;
-  margin-bottom: 15px;
-  line-height: 1.5;
+.beer-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.pubs-desc-review strong {
-  color: #ff6a00;
+.beer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.pubs-rating-review {
-  font-size: 22px;
+.beer-name {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.beer-type {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.beer-description {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 10px;
+  flex-grow: 1;
+}
+
+.beer-rating {
+  font-size: 1.2rem;
+  color: #f39c12;
   font-weight: bold;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
-.pubs-rating-review strong {
-  color: #ff6a00;
+.beer-rating::after {
+  content: " / 5";
 }
-
-
-
-
-/*  */

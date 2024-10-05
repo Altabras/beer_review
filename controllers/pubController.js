@@ -90,3 +90,23 @@ exports.getPubById = (req, res) => {
     res.json(result[0]); // Повертаємо перший результат
   });
 };
+
+
+// Отримати список пива для конкретного паба
+exports.getBeersByPubId = (req, res) => {
+  const { id } = req.params; // Отримуємо ID паба з параметрів
+  const sql = `
+    SELECT beers.id, beers.name, beers.type, beers.description, beers.rating 
+    FROM beers 
+    JOIN pub_beer ON beers.id = pub_beer.beer_id 
+    WHERE pub_beer.pub_id = ?
+  `;
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results); // Повертаємо список пива для конкретного паба
+  });
+};
+
+

@@ -33,4 +33,7 @@ router.delete('/:id', pubController.deletePub);
 // Отримати один паб за ID
 router.get('/:id', pubController.getPubById);
 
+// Маршрут для отримання пива для конкретного паба
+router.get('/:id/beers', pubController.getBeersByPubId);
+
 module.exports = router;
